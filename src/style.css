@@ -1,0 +1,65 @@
+body {
+    margin: 0;
+    overflow: hidden;
+  }
+
+canvas.threejs {
+  flex: 1;
+  display: block;
+  height: 100vh; /* Full viewport height */
+  width: calc(100% - 300px); /* Subtract the right panel width from the canvas width */
+}
+
+.right-panel {
+  position: fixed;  /* Ensure the panel stays in place */
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh; /* Full screen height */
+  background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+  padding: 20px;
+  box-shadow: -2px 0px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.right-panel h2 {
+  font-size: 35px;
+  margin-bottom: 20px;
+}
+
+.right-panel div {
+  margin-bottom: 15px;
+}
+
+.right-panel h3 {
+  font-size: 22px;
+  margin-bottom: 5px;
+}
+
+.right-panel p {
+  font-size: 14px;
+  margin: 0;
+}
+
+.material-thumbnails {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.thumbnail {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  border: 2px solid #ccc;
+}
+
+.thumbnail[data-color="0xff0000"] { background-color: #ff0000; }
+.thumbnail[data-color="0x00ff00"] { background-color: #00ff00; }
+.thumbnail[data-color="0x0000ff"] { background-color: #0000ff; }
+.thumbnail[data-color="0x808080"] { background-color: #808080; }
+.thumbnail[data-color="0x8B4513"] { background-color: #8B4513; }
+.thumbnail[data-color="0xffff00"] { background-color: #ffff00; }
+.thumbnail[data-color="0x00ffff"] { background-color: #00ffff; }
+.thumbnail[data-color="0xff00ff"] { background-color: #ff00ff; }
+.thumbnail[data-color="0xFFFFFF"] { background-color: #ffffff; }
