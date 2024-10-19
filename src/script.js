@@ -5,7 +5,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
 import { texture } from "three/webgpu";
 
-
 // initialize pane
 const pane = new Pane();
 
@@ -36,13 +35,12 @@ rgbeLoader.load('hdri/photo_studio_broadway_hall_2k.hdr', function (texture) {
   scene.environment = texture;
 })
 
-
 // add the custom 3d model
 let object;
 
 // Object to store references to individual mesh parts
 const meshParts = [];
-let part1, part2, part3, part4; // Adjust the number and names based on your model
+let part1, part2, part3 // Adjust the number and names based on your model
 
 const loader = new GLTFLoader();
 
@@ -68,8 +66,6 @@ loader.load(
           part2 = child;
         } else if (meshParts.length === 3) {
           part3 = child;
-        } else if (meshParts.length === 4) {
-          part4 = child;
         }
 
         // Log the stored part (optional)
@@ -96,7 +92,6 @@ loader.load(
         if (partNumber === 1) changeMaterial(part1, color);
         if (partNumber === 2) changeMaterial(part2, color);
         if (partNumber === 3) changeMaterial(part3, color);
-        if (partNumber === 4) changeMaterial(part4, color);
       });
     });
 
@@ -109,21 +104,17 @@ loader.load(
   },
 )
 
-
-
 // Function to update the right panel with information about each mesh part
 function updateRightPanelInfo() {
   const part1Info = document.getElementById("mesh-part1-info");
   const part2Info = document.getElementById("mesh-part2-info");
   const part3Info = document.getElementById("mesh-part3-info");
-  const part4Info = document.getElementById("mesh-part4-info");
 
   // Assuming these parts exist in the mesh and have properties you want to show
   if (object) {
     part1Info.textContent = `Name: ${meshParts[0].name}`;
     part2Info.textContent = `Name: ${object.children[1].name}`;
     part3Info.textContent = `Name: ${object.children[2].name}`;
-    part4Info.textContent = `Name: ${object.children[3].name}`;
   }
 }
 
@@ -133,7 +124,6 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
-
 
 // initialize the renderer
 const canvas = document.querySelector("canvas.threejs");
@@ -163,6 +153,5 @@ const renderloop = () => {
   renderer.render(scene, camera);
   window.requestAnimationFrame(renderloop);
 };
-
 
 renderloop();
