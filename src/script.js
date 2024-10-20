@@ -29,7 +29,7 @@ scene.add(toplight);
 
 // setting HDRI lighting
 const rgbeLoader = new RGBELoader();
-rgbeLoader.load('hdri/photo_studio_broadway_hall_2k.hdr', function (texture) {
+rgbeLoader.load('hdri/brown_photostudio_02_4k.hdr', function (texture) {
   texture.mapping = THREE.EquirectangularReflectionMapping;
   //scene.background = texture;
   scene.environment = texture;
@@ -62,10 +62,13 @@ loader.load(
         // Assign specific parts to their variables based on order
         if (meshParts.length === 1) {
           part1 = child;
+          console.log(part1)
         } else if (meshParts.length === 2) {
           part2 = child;
+            console.log(part2)
         } else if (meshParts.length === 3) {
           part3 = child;
+            console.log(part2)
         }
 
         // Log the stored part (optional)
@@ -73,27 +76,75 @@ loader.load(
       }
     });
 
-    // function to change material
-    function changeMaterial(part, color) {
-        const material = new THREE.MeshStandardMaterial({color: new THREE.Color(parseInt(color))});
-        if (part) {
-          part.material = material;
-          part.material.needsUpdate = true;
-        }
-    }
-    // Add event listeners to thumbnails
-    const thumbnails = document.querySelectorAll('.thumbnail');
-    thumbnails.forEach((thumbnail) => {
-      thumbnail.addEventListener('click', (event) => {
-        const partNumber = parseInt(event.target.dataset.part);
-        const color = event.target.dataset.color;
+    // Load the textures
+    const textureLoader = new THREE.TextureLoader();
+    // Duplicating the material and changing it's properties
+    const baseMaterial = part1.material.clone();
 
-        // Change the material of the respective part
-        if (partNumber === 1) changeMaterial(part1, color);
-        if (partNumber === 2) changeMaterial(part2, color);
-        if (partNumber === 3) changeMaterial(part3, color);
+    const bodyMaterials = {
+        antwerpOak: baseMaterial.clone(),
+        ashBlackStained: baseMaterial.clone(),
+        ashNatural: baseMaterial.clone(),
+        whiteAsh: baseMaterial.clone(),
+    };
+
+    const genericWoodNormalMap = textureLoader.load('textures/buzzi-float-body-generic_wood-normal.jpeg');
+
+    // ANTWERP OAK
+    const antwerpOakAlbedo = textureLoader.load('textures/buzzi-float-body-antwerp_oak-albedo.jpg');
+    antwerpOakAlbedo.colorSpace = THREE.SRGBColorSpace;
+    bodyMaterials.antwerpOak.map = antwerpOakAlbedo;
+    bodyMaterials.antwerpOak.normalMap = textureLoader.load('textures/buzzi-float-body-antwerp_oak-normal.jpg');
+
+    // ASH BLACK STAINED
+    const ashBlackStainedAlbedo = textureLoader.load('textures/buzzi-float-body-ash_black_stained-albedo.jpg');
+    ashBlackStainedAlbedo.colorSpace = THREE.SRGBColorSpace;
+    bodyMaterials.ashBlackStained.map = ashBlackStainedAlbedo;
+    bodyMaterials.ashBlackStained.normalMap = genericWoodNormalMap;
+
+    // ASH NATURAL
+    const ashNaturalAlbedo = textureLoader.load('textures/buzzi-float-body-ash_natural-albedo.jpg');
+    ashNaturalAlbedo.colorSpace = THREE.SRGBColorSpace;
+    bodyMaterials.ashNatural.map = ashNaturalAlbedo;
+    bodyMaterials.ashNatural.normalMap = genericWoodNormalMap;
+
+    const whiteAshAlbedo = textureLoader.load('textures/buzzi-float-body-white_ash-albedo.jpg');
+    whiteAshAlbedo.colorSpace = THREE.SRGBColorSpace;
+    bodyMaterials.whiteAsh.map = whiteAshAlbedo;
+    bodyMaterials.whiteAsh.normalMap = textureLoader.load('textures/buzzi-float-body-white_ash-normal.jpg');
+
+    // function to change material
+      function changeMaterial(part, materialToApply) {
+          if (part) {
+              part.material = materialToApply;
+              part.material.needsUpdate = true;
+          }
+      }
+
+    // Add event listeners to thumbnails
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      thumbnails.forEach((thumbnail) => {
+          thumbnail.addEventListener('click', (event) => {
+              const partNumber = parseInt(event.target.dataset.part);
+
+              switch (partNumber) {
+                  case 1:
+                      changeMaterial(part1, bodyMaterials.antwerpOak);
+                      break;
+                  case 2:
+                      changeMaterial(part1, bodyMaterials.ashBlackStained);
+                      break;
+                  case 3:
+                      changeMaterial(part1, bodyMaterials.ashNatural);
+                      break;
+                  case 4:
+                      changeMaterial(part1, bodyMaterials.whiteAsh);
+                      break;
+                  default:
+                      console.error('Invalid part number:', partNumber);
+              }
+          });
       });
-    });
 
   },
   function (xhr) {
@@ -149,11 +200,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.maxDistance = 250;
-controls.minDistance = 180;
+controls.minDistance = 50;
 controls.target.set(0, 30, 0);
 controls.minPolarAngle = Math.PI / 22;
 controls.maxPolarAngle = Math.PI / 2;
-controls.enablePan = false;
+//controls.enablePan = false;
 controls.update;
 
 // add resize listener
