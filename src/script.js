@@ -45,7 +45,7 @@ let part1, part2, part3 // Adjust the number and names based on your model
 const loader = new GLTFLoader();
 
 loader.load(
-  'models/buzzi-float-3dsMax-export/buzzi-float-blender-export.gltf',
+  'models/gltf-ready/buzzi-float-blender-export-v2.gltf',
   function (gltf) {
     object = gltf.scene;
     scene.add(object);
@@ -61,7 +61,7 @@ loader.load(
 
         // Assign specific parts to their variables based on order
         if (meshParts.length === 1) {
-          part1 = child; 
+          part1 = child;
         } else if (meshParts.length === 2) {
           part2 = child;
         } else if (meshParts.length === 3) {
@@ -118,12 +118,21 @@ function updateRightPanelInfo() {
   }
 }
 
-// Add resize listener
-window.addEventListener("resize", () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+// Get the right panel element
+const rightPanel = document.getElementById("right-panel");
+
+// Function to resize canvas based on window size minus the right panel width
+function resizeCanvas() {
+    const rightPanelWidth = rightPanel.offsetWidth; // Get the width of the right panel
+    const canvasWidth = window.innerWidth - rightPanelWidth; // Calculate available width for canvas
+    const canvasHeight = window.innerHeight; // Full window height for canvas
+
+    // Update the renderer and camera aspect ratio
+    camera.aspect = canvasWidth / canvasHeight;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(canvasWidth, canvasHeight); // Set the new size of the renderer
+}
 
 // initialize the renderer
 const canvas = document.querySelector("canvas.threejs");
@@ -132,12 +141,19 @@ renderer.setClearColor('#ededed');
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
+// Set initial renderer size
+resizeCanvas(); // Call it to set the size on load
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
 // add controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
-controls.maxDistance = 200;
-controls.minDistance = 20
+controls.maxDistance = 250;
+controls.minDistance = 180;
 controls.target.set(0, 30, 0);
+controls.minPolarAngle = Math.PI / 22;
+controls.maxPolarAngle = Math.PI / 2;
+controls.enablePan = false;
 controls.update;
 
 // add resize listener
