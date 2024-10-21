@@ -54,12 +54,19 @@ canvas.threejs {
   border: 1px solid #ccc;
 }
 
-.thumbnail[data-color="0xff0000"] { background-color: #ff0000; }
-.thumbnail[data-color="0x00ff00"] { background-color: #00ff00; }
-.thumbnail[data-color="0x0000ff"] { background-color: #0000ff; }
-.thumbnail[data-color="0x808080"] { background-color: #808080; }
+.thumbnail[data-color="0xff0000"] { background-color: #553400; }
+.thumbnail[data-color="0x00ff00"] { background-color: #000000; }
+.thumbnail[data-color="0x0000ff"] { background-color: #ffbc70; }
+.thumbnail[data-color="0x808080"] { background-color: #ededed; }
 .thumbnail[data-color="0x8B4513"] { background-color: #8B4513; }
 .thumbnail[data-color="0xffff00"] { background-color: #ffff00; }
 .thumbnail[data-color="0x00ffff"] { background-color: #00ffff; }
 .thumbnail[data-color="0xff00ff"] { background-color: #ff00ff; }
 .thumbnail[data-color="0xFFFFFF"] { background-color: #ffffff; }
+.thumbnail[data-color="E86E0DFF"] { background-color: #e86e0d; }
+.thumbnail[data-color="003C0EFF"] { background-color: #003c0e; }
+.thumbnail[data-color="22DF15FF"] { background-color: #22df15; }
+.thumbnail[data-color="373737FF"] { background-color: #373737; }
+.thumbnail[data-color="DD9E00FF"] { background-color: #dd9e00; }
+.thumbnail[data-color="FFEFBFFF"] { background-color: #ffefbf; }
+.thumbnail[data-color="FFD500FF"] { background-color: #ffd500; }

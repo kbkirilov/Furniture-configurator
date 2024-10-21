@@ -3,7 +3,9 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Pane } from "tweakpane";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader.js';
-import {MaterialManager} from "./modules/MaterialManager.js";
+import {BodyMaterialManager} from "./modules/BodyMaterialManager.js";
+import {SeatMaterialManager} from "./modules/SeatMaterialManager.js";
+import {MetalMaterialManager} from "./modules/MetalMaterialManager.js";
 
 // initialize pane
 const pane = new Pane();
@@ -44,7 +46,9 @@ let part1, part2, part3 // Adjust the number and names based on your model
 
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
-const materialManager = new MaterialManager(textureLoader);
+const materialManager = new BodyMaterialManager(textureLoader);
+const seatMaterialManager = new SeatMaterialManager(textureLoader);
+const metalMaterialManager = new MetalMaterialManager();
 
 loader.load(
     'assets/models/gltf-ready/buzzi-float-blender-export-v2.gltf',
@@ -74,12 +78,12 @@ loader.load(
             }
         });
 
-        // Load materials
         materialManager.loadMaterials(part1);
+        metalMaterialManager.loadMaterials(part2);
+        seatMaterialManager.loadMaterials(part3);
 
-        // Add event listeners to thumbnails
-        const thumbnails = document.querySelectorAll('.thumbnail');
-        thumbnails.forEach((thumbnail) => {
+        const bodyThumbnails = document.querySelectorAll('#mesh-part1 .thumbnail');
+        bodyThumbnails.forEach((thumbnail) => {
             thumbnail.addEventListener('click', (event) => {
                 const partNumber = parseInt(event.target.dataset.part);
 
@@ -95,6 +99,54 @@ loader.load(
                         break;
                     case 4:
                         materialManager.changeMaterial(part1, materialManager.bodyMaterials.whiteAsh);
+                        break;
+                    default:
+                        console.error('Invalid part number:', partNumber);
+                }
+            });
+        });
+
+        const metalThumbnails = document.querySelectorAll('#mesh-part2 .thumbnail');
+        metalThumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener('click', (event) => {
+                const partNumber = parseInt(event.target.dataset.part);
+
+                switch (partNumber) {
+                    case 1:
+                        metalMaterialManager.changeMaterial(part2, metalMaterialManager.metalMaterials.whiteMetal);
+                        break;
+                    case 2:
+                        metalMaterialManager.changeMaterial(part2, metalMaterialManager.metalMaterials.blackMetal);
+                }
+            });
+        });
+
+        const seatThumbnails = document.querySelectorAll('#mesh-part3 .thumbnail');
+        seatThumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener('click', (event) => {
+                const partNumber = parseInt(event.target.dataset.part);
+
+                switch (partNumber) {
+                    case 1:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.autumn);
+                        break;
+                    case 2:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.bottle);
+                        break;
+                    case 3:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.grass);
+                        break;
+                    case 4:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.midgrey);
+                        break;
+                    case 5:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.mustard);
+                        break;
+                    case 6:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.natural);
+                        break;
+                    case 7:
+                        seatMaterialManager.changeMaterial(part3, seatMaterialManager.seatMaterials.yellowfa);
                         break;
                     default:
                         console.error('Invalid part number:', partNumber);
@@ -156,11 +208,11 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.maxDistance = 250;
-controls.minDistance = 50;
+controls.minDistance = 180;
 controls.target.set(0, 30, 0);
 controls.minPolarAngle = Math.PI / 22;
 controls.maxPolarAngle = Math.PI / 2;
-//controls.enablePan = false;
+controls.enablePan = false;
 controls.update;
 
 // add resize listener
