@@ -46,7 +46,7 @@ let part1, part2, part3 // Adjust the number and names based on your model
 
 const loader = new GLTFLoader();
 const textureLoader = new THREE.TextureLoader();
-const materialManager = new BodyMaterialManager(textureLoader);
+const bodyMaterialManager = new BodyMaterialManager(textureLoader);
 const seatMaterialManager = new SeatMaterialManager(textureLoader);
 const metalMaterialManager = new MetalMaterialManager();
 
@@ -78,7 +78,7 @@ loader.load(
             }
         });
 
-        materialManager.loadMaterials(part1);
+        bodyMaterialManager.loadMaterials(part1);
         metalMaterialManager.loadMaterials(part2);
         seatMaterialManager.loadMaterials(part3);
 
@@ -89,16 +89,16 @@ loader.load(
 
                 switch (partNumber) {
                     case 1:
-                        materialManager.changeMaterial(part1, materialManager.bodyMaterials.antwerpOak);
+                        bodyMaterialManager.changeMaterial(part1, bodyMaterialManager.bodyMaterials.antwerpOak);
                         break;
                     case 2:
-                        materialManager.changeMaterial(part1, materialManager.bodyMaterials.ashBlackStained);
+                        bodyMaterialManager.changeMaterial(part1, bodyMaterialManager.bodyMaterials.ashBlackStained);
                         break;
                     case 3:
-                        materialManager.changeMaterial(part1, materialManager.bodyMaterials.ashNatural);
+                        bodyMaterialManager.changeMaterial(part1, bodyMaterialManager.bodyMaterials.ashNatural);
                         break;
                     case 4:
-                        materialManager.changeMaterial(part1, materialManager.bodyMaterials.whiteAsh);
+                        bodyMaterialManager.changeMaterial(part1, bodyMaterialManager.bodyMaterials.whiteAsh);
                         break;
                     default:
                         console.error('Invalid part number:', partNumber);
@@ -114,9 +114,14 @@ loader.load(
                 switch (partNumber) {
                     case 1:
                         metalMaterialManager.changeMaterial(part2, metalMaterialManager.metalMaterials.whiteMetal);
+                        console.log(part2.material)
                         break;
                     case 2:
                         metalMaterialManager.changeMaterial(part2, metalMaterialManager.metalMaterials.blackMetal);
+                        console.log(part2.material)
+                        break;
+                    default:
+                        console.error('Invalid part number:', partNumber);
                 }
             });
         });

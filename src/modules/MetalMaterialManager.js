@@ -5,17 +5,17 @@ export class MetalMaterialManager {
         this.metalMaterials = {};
     }
 
-    loadMaterials(part3) {
-        const baseMaterial = part3.material.clone();
+    loadMaterials(part2) {
+        const baseMaterial = part2.material.clone();
 
         this.metalMaterials.whiteMetal = baseMaterial.clone();
         this.metalMaterials.blackMetal = baseMaterial.clone();
 
         // white
-        this.metalMaterials.whiteMetal.color = 'white';
+        this.metalMaterials.whiteMetal.color = new THREE.Color(0xffffff);
 
         // black
-        this.metalMaterials.blackMetal.color = 'black';
+        this.metalMaterials.blackMetal.color = new THREE.Color(0x000000);
     }
 
     changeMaterial(part, materialToApply) {
