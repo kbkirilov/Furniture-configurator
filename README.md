@@ -13,3 +13,4 @@ The Furniture Configurator is a simple SAP application that allows users to inte
 
 ## 🎞️ Project video
 If you don't want to do the above, here is a brief video of how the application is running. 
+https://youtu.be/V5XJ_e6O5aU
